@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@zag-js/collapsible": "^0.67.0",
+    "@zag-js/select": "^0.67.0",
     "@zag-js/svelte": "^0.67.0",
     "uid": "^2.0.2"
   }
