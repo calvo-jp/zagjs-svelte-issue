@@ -1,26 +1,24 @@
 <script lang="ts">
   import * as collapsible from "@zag-js/collapsible";
-  import { normalizeProps, useMachine } from "@zag-js/svelte";
+  import { normalizeProps, reflect, useMachine } from "@zag-js/svelte";
   import { uid } from "uid";
 
   let id = uid();
 
   let open = $state(false);
 
-  let [snapshot, send] = useMachine(
-    collapsible.machine({
-      id,
-      get open() {
-        return open;
-      },
-      onOpenChange(detail) {
-        open = detail.open;
-      },
-      "open.controlled": true,
-    }),
-  );
+  let context: collapsible.Context = reflect(() => ({
+    id,
+    open,
+    "open.controlled": true,
+    onOpenChange(detail) {
+      open = detail.open;
+    },
+  }));
 
-  let api = $derived(collapsible.connect(snapshot, send, normalizeProps));
+  let [snapshot, send] = useMachine(collapsible.machine(context), { context });
+
+  let api = reflect(() => collapsible.connect(snapshot, send, normalizeProps));
 </script>
 
 <div {...api.getRootProps()}>
