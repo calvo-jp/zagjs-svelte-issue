@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@9.7.1",
+  "packageManager": "pnpm@10.11.0",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -13,21 +13,20 @@
     "lint": "prettier --check .",
     "format": "prettier --write ."
   },
-  "devDependencies": {
-    "@sveltejs/adapter-auto": "^3.2.4",
-    "@sveltejs/kit": "^2.5.26",
-    "@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
-    "prettier": "^3.3.3",
-    "prettier-plugin-svelte": "^3.2.6",
-    "svelte": "^5.0.0-next.236",
-    "svelte-check": "^4.0.1",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.4"
-  },
   "dependencies": {
-    "@zag-js/collapsible": "^0.67.0",
-    "@zag-js/select": "^0.67.0",
-    "@zag-js/svelte": "^0.67.0",
-    "uid": "^2.0.2"
+    "@fontsource/inter": "^5.2.5",
+    "@zag-js/collapsible": "^1.14.0",
+    "@zag-js/svelte": "^1.14.0"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^6.0.1",
+    "@sveltejs/kit": "^2.21.1",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-svelte": "^3.4.0",
+    "svelte": "^5.33.10",
+    "svelte-check": "^4.2.1",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
   }
 }

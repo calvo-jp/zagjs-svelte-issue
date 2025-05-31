@@ -1,41 +1,64 @@
 <script lang="ts">
   import * as collapsible from "@zag-js/collapsible";
-  import { normalizeProps, reflect, useMachine } from "@zag-js/svelte";
-  import { uid } from "uid";
+  import { normalizeProps, useMachine } from "@zag-js/svelte";
 
-  let id = uid();
-
-  let open = $state(false);
-
-  let context: collapsible.Context = reflect(() => ({
-    id,
-    open,
-    "open.controlled": true,
-    onOpenChange(detail) {
-      open = detail.open;
-    },
-  }));
-
-  let [snapshot, send] = useMachine(collapsible.machine(context), { context });
-
-  let api = reflect(() => collapsible.connect(snapshot, send, normalizeProps));
+  const id = $props.id();
+  const service = useMachine(collapsible.machine, { id });
+  const api = $derived(collapsible.connect(service, normalizeProps));
 </script>
 
 <div {...api.getRootProps()}>
-  <button type="button" {...api.getTriggerProps()}>
-    {#if open}
-      Close
-    {:else}
-      Open
-    {/if}
-  </button>
-
-  <p {...api.getContentProps()}>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint fugiat
-    dolorum, modi consectetur aspernatur magni cumque adipisci inventore labore
-    doloremque magnam error iure! Blanditiis, culpa porro? Pariatur nam unde
-    exercitationem. Amet minima dolorem perspiciatis voluptates harum magnam
-    culpa? Eaque possimus voluptatem pariatur! Animi sit quisquam nostrum ad
-    vitae eum deleniti!
-  </p>
+  <button {...api.getTriggerProps()}>Collapse Trigger</button>
+  <div {...api.getContentProps()}>Collape Content</div>
 </div>
+
+<style>
+  :global([data-scope="collapsible"][data-part="root"]) {
+    max-width: 400px;
+  }
+
+  :global([data-scope="collapsible"][data-part="trigger"]) {
+    padding-left: 14px;
+    padding-right: 14px;
+    height: 40px;
+    border: 1px solid oklch(87.2% 0.01 258.338);
+  }
+
+  :global([data-scope="collapsible"][data-part="content"]) {
+    margin-top: 8px;
+    color: var(--color-muted);
+    overflow: hidden;
+  }
+
+  :global([data-scope="collapsible"][data-part="content"][data-state="open"]) {
+    animation: fade-collapse-in 250ms;
+  }
+
+  :global(
+    [data-scope="collapsible"][data-part="content"][data-state="closed"]
+  ) {
+    animation: fade-collapse-out 150ms;
+  }
+
+  @keyframes fade-collapse-in {
+    from {
+      opacity: 0;
+      height: 0;
+    }
+    to {
+      opacity: 1;
+      height: var(--height);
+    }
+  }
+
+  @keyframes fade-collapse-out {
+    from {
+      opacity: 1;
+      height: var(--height);
+    }
+    to {
+      opacity: 0;
+      height: 0;
+    }
+  }
+</style>
